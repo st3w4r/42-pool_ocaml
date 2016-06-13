@@ -1,7 +1,4 @@
 let rec ft_power n p =
-    if (n <= 0 && p <= 0)
-    then 0
-    else
     if (p <= 0)
     then 1
     else
@@ -28,5 +25,3 @@ let () =
     print_char '\n';
     print_int (ft_power 1 0);
     print_char '\n';
-    print_int (ft_power 0 0);
-    print_char '\n'
