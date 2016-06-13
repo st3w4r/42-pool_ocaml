@@ -13,11 +13,11 @@ let rec ft_countdown n =
         end
 
 let () = 
-    ft_countdown 5;
-    print_char '\n';
+	print_endline "Test with [5]:";
+	ft_countdown 5;
+	print_endline "Test with [1]:";
     ft_countdown 1;
-    print_char '\n';
+	print_endline "Test with [0]:";
     ft_countdown 0;
-    print_char '\n';
+	print_endline "Test with [-1]:";
     ft_countdown (-1);
-    print_char '\n'
