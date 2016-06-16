@@ -6,90 +6,9 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/15 13:27:08 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/16 12:21:49 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/16 13:42:32 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
-
-(*
-let is_same n = match n with
-| (n0, n1) when n0 = n1 -> true
-| (n0, _) -> false
-
-
-let rec process_list i n lst =
-    if is_same ((List.nth lst i), (List.nth lst (i+1)))
-            then (process_list (i+1) 1 lst)
-            else (n, (List.nth lst i))
-*)
-
-(*
-let is_same n = match n with
-| (n0, n1) when n0 = n1 -> true
-| (n0, _) -> false
-
-
-let rec process_list n lst =
-    if is_same ("a", "b")
-            then process_list 2 lst
-            else (n, "a")
-*)
-
-
-
-(*
-let rec each_elem el0 el1 lst = match lst with
-| [] -> (0, 0)
-    | head::next::queue -> (
-        if head = next then 
-            else 0
-    )
-    | head::queue -> 0
-    *)
-
-(*
-let each_elem el0 el1 n =
-    if (is_same el0 el1) then (n + 1, el0)
-    else (n, el0)
-
-let 
-*)
-
-
-(*let rec map x lst = match lst with
-| [] -> (1, x)
-*)
-
-(* ---
-let rec identity lst acc = match lst with
-        | [] -> acc
-        | head::queue -> identity queue (acc @ [head])
-     in identity lst []
-
-let rec map_to_tuple lst acc = match lst with
-    | [] -> acc
-    | head::queue -> map_to_tuple queue (acc @ [(1, head)])
-    in map_to_tuple lst []
-
-
-let map_to_tuple lst =
-    let rec revert lst acc = match lst with
-    | [] -> acc
-    | [a] -> [(1,a)]
-    | head::queue -> iden queue (head::acc)
-    in revert (revert lst []) []
-
-
-let rec counter n x lst = match lst with
-| [] -> 0
-| tete::queue -> when tete = queue 
-
-let encode lst =
-    iden (iden lst []) []
-*)
-let rec map_to_tuple lst acc = match lst with
-    | [] -> acc
-    | head::queue -> map_to_tuple queue (acc @ [(1, head)])
-    in map_to_tuple lst []
 
 let rec encode lst = match lst with
     | hd::tl -> (
@@ -100,10 +19,50 @@ let rec encode lst = match lst with
     )
     | [] -> []
 
-    in encode loop
+
+let rec print_list_int lst = match lst with
+    | hd::tl -> (
+        print_int hd;
+        print_string "; ";
+        print_list_int tl
+    )
+    | [] -> print_string "\n"
+
+let rec print_list_tuple_int lst = match lst with
+    | hd::tl -> (
+        let (n, x) = hd in
+        print_string "(";
+        print_int n;
+        print_string ", ";
+        print_int x;
+        print_string ")";
+        print_string "; ";
+        print_list_tuple_int tl
+    )
+    | [] -> print_string "\n"
+
+let rec print_list_encoded_int lst = match lst with
+    | hd::tl -> (
+        let (n, x) = hd in
+        let rec print_loop_int n x tl =
+        if n > 0 then (
+            print_int x;
+            print_loop_int (n-1) x tl
+        )
+        else print_list_encoded_int tl
+        in print_loop_int n x tl
+    )
+    | [] -> print_string "\n"
+
 
 let main () =
-    encode [2; 2; 2; 2; 42; 42; 100; 101]
+    let list_int = [2; 2; 2; 2; 42; 42; 100; 101] in
+    print_string "List: ";
+    print_list_int list_int;
+    print_string "Tuple: ";
+    print_list_tuple_int (encode list_int);
+    print_string "Decode: ";
+    print_list_encoded_int (encode list_int)
 
 let () = main ()
 
