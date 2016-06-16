@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/15 13:27:08 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/15 21:45:36 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/16 12:21:49 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -59,6 +59,7 @@ let
 | [] -> (1, x)
 *)
 
+(* ---
 let rec identity lst acc = match lst with
         | [] -> acc
         | head::queue -> identity queue (acc @ [head])
@@ -84,8 +85,28 @@ let rec counter n x lst = match lst with
 
 let encode lst =
     iden (iden lst []) []
+*)
+let rec map_to_tuple lst acc = match lst with
+    | [] -> acc
+    | head::queue -> map_to_tuple queue (acc @ [(1, head)])
+    in map_to_tuple lst []
+
+let rec encode lst = match lst with
+    | hd::tl -> (
+        let rec loop lst el c acc = match lst with
+        | hd::tl -> if (hd = el) then loop tl hd (c+1) acc else loop tl hd 1 (acc @ [(c, el)])
+        | [] -> acc @ [(c, el)]
+        in loop lst hd 0 []
+    )
+    | [] -> []
+
+    in encode loop
 
 let main () =
     encode [2; 2; 2; 2; 42; 42; 100; 101]
 
 let () = main ()
+
+
+
+
