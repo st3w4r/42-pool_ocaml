@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/16 13:59:20 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/16 20:50:25 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/16 20:57:19 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -20,11 +20,7 @@ let crossover lst_l lst_r =
                 )
                 | [] -> acc
             in
-            check_lstl tl lst_r (check_lstr lst_r hd acc)
-            )
-        | [] -> acc
-            (*check_lstr lst_r hd (check_lstl tl lst_r acc)*)
-(*
+            check_lstl tl lst_r (
                 if (
                     let rec check_acc lst_acc el = match lst_acc with
                         | hd::tl -> (
@@ -34,9 +30,10 @@ let crossover lst_l lst_r =
                         | [] -> false
                     in check_acc acc hd
                     ) = true
-                then []
-                else check_lstl tl lst_r acc
-            )*)
-
+                then acc
+                else check_lstr lst_r hd acc
+            )
+        )
+        | [] -> acc
     in check_lstl lst_l lst_r []
 
