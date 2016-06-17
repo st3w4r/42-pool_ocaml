@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/17 17:35:24 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/17 21:04:42 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/17 21:23:28 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -174,3 +174,32 @@ let toStringVerbose (card :t) = (
     let c = getColor card in
     Printf.sprintf "Card(%s, %s)" (Value.toStringVerbose v) (Color.toStringVerbose c)
 )
+
+let compare c1 c2 = (
+    let v1 = getValue c1 in
+    let v2 = getValue c2 in
+    if Value.toInt v1 = Value.toInt v2 then 0
+    else if Value.toInt v1 < Value.toInt v2 then -1
+    else 1
+)
+
+let max c1 c2 = (
+    let v1 = getValue c1 in
+    let v2 = getValue c2 in
+    if Value.toInt v1 >= Value.toInt v2 then v1
+    else v2
+)
+
+let min c1 c2 = (
+    let v1 = getValue c1 in
+    let v2 = getValue c2 in
+    if Value.toInt v1 <= Value.toInt v2 then v1
+    else v2
+)
+
+
+
+
+
+
+
