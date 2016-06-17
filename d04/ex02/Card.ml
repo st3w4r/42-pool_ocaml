@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/17 17:35:24 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/17 21:23:28 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/17 23:25:02 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -186,20 +186,63 @@ let compare c1 c2 = (
 let max c1 c2 = (
     let v1 = getValue c1 in
     let v2 = getValue c2 in
-    if Value.toInt v1 >= Value.toInt v2 then v1
-    else v2
+    if Value.toInt v1 >= Value.toInt v2 then c1
+    else c2
 )
 
 let min c1 c2 = (
     let v1 = getValue c1 in
     let v2 = getValue c2 in
-    if Value.toInt v1 <= Value.toInt v2 then v1
-    else v2
+    if Value.toInt v1 <= Value.toInt v2 then c1
+    else c2
+)
+
+(*
+let best lst = (
+    if lst = [] then (
+        List.fold_left max hd lst
+        (*
+        let rec each_elem lst best_card = match lst with
+            | hd::tl -> List.fold_left Card.max hd tl)
+            | [] -> best_card
+        in each_elem lst (newCard (()) 0
+        *)
+    )
+    else invalid_arg "Enpty list"
+)
+*)
+
+let isOf card color = (
+    if (getColor card) = color
+    then true
+    else false
 )
 
 
+let isSpade card = (
+    if (getColor card) = Color.Spade
+    then true
+    else false
+)
 
 
+let isHeart card = (
+    if (getColor card) = Color.Heart
+    then true
+    else false
+)
+
+let isDiamond card = (
+    if (getColor card) = Color.Diamond
+    then true
+    else false
+)
+
+let isClub card = (
+    if (getColor card) = Color.Club
+    then true
+    else false
+)
 
 
 
