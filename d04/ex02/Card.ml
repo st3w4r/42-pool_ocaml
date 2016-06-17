@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/17 17:35:24 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/17 23:25:02 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/18 00:01:20 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -197,20 +197,12 @@ let min c1 c2 = (
     else c2
 )
 
-(*
 let best lst = (
-    if lst = [] then (
-        List.fold_left max hd lst
-        (*
-        let rec each_elem lst best_card = match lst with
-            | hd::tl -> List.fold_left Card.max hd tl)
-            | [] -> best_card
-        in each_elem lst (newCard (()) 0
-        *)
-    )
-    else invalid_arg "Enpty list"
+    let check_lst lst = match lst with
+       | [] -> invalid_arg "Enpty list"
+       | hd::tl -> List.fold_left (max) hd lst
+    in check_lst lst
 )
-*)
 
 let isOf card color = (
     if (getColor card) = color
