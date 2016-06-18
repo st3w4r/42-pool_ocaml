@@ -1,6 +1,5 @@
 let main () =
 	let deck1 = Deck.newDeck in
-	let deck2 = Deck.newDeck in
 
 	print_endline "[Deck String]:";
 	let rec print_deck_list_string lst = match lst with
@@ -18,7 +17,7 @@ let main () =
 				print_deck_list_string tl;
 			)
 		| [] -> print_endline ""
-	in print_deck_list_string (Deck.toStringListVerbose deck2);
+	in print_deck_list_string (Deck.toStringListVerbose deck1);
 
 	print_endline "[Draw Deck First Card]:";
 	let (card, lst) = (Deck.drawCard deck1) in

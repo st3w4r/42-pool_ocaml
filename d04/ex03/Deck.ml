@@ -230,7 +230,13 @@ end
 
 type t = (Card.t list)
 
-let newDeck :t = Card.all (* Ne pas oublier le random*)
+let newDeck :t = (
+		Random.self_init ();
+		let random_cmp d1 d2 =
+			if d1 = d2 then 0
+			else if Random.bool() then 1 else -1
+		in List.sort random_cmp (Card.all)
+	)
 
 let toStringList deck = (
 		let rec print_lst lst acc = match lst with
