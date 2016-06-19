@@ -1,212 +1,96 @@
-(*
-type level = Level of int
+let count_char_in_str str c = 
+	let rec count_char strlen current_index acc =
+		if current_index = strlen
+		then
+			acc
+		else if (String.get str current_index) = c 
+		then
+			count_char strlen (current_index + 1) (acc + 1)
+		else
+			count_char strlen (current_index + 1) acc 
+	in  
+	count_char (String.length str) 0 0 
 
-type player = Player of string
+let check_str_is_number str =
+	let rec check_str strlen current_index =
+		if current_index = strlen
+		then
+			true
+		else if (String.get str current_index) < '0' || (String.get str current_index) > '9' 
+		then
+			false
+		else
+			check_str strlen (current_index + 1)
+	in  
+	check_str (String.length str) 0
 
-type board =
-    | Owner of player
-    | Grid of level * player * (board list)
+let check_both_digits entry =
+	let space_index = String.index entry ' ' in
+	let first_part = String.sub entry 0 (space_index - 1) in
+	let second_part = String.sub entry (space_index + 1) ((String.length entry) - 1) in
+	(check_str_is_number first_part) && (check_str_is_number second_part)
 
-let tiles_level = Level 0
-let first_level = Level 1
-let second_level = Level 2
+let print_error message current_player =
+	let player_message = (Display.string_of_player current_player) ^ "'s turn." in
+		Display.display_instructions (message ^ player_message);
+		false
 
-let playerX = Player("X")
-let playerO = Player("O")
-let noPlayer = Player("")
+let check_entry entry board current_player =
+	if (count_char_in_str entry ' ') <> 1
+	then
+		begin
+(*		Display.clear_win ();
+		Display.display_board Board.board 0;*)
+		print_error "Incorrect format. " current_player
+		end
+	else if not (check_both_digits entry)
+	then
+		begin
+(*		Display.clear_win ();
+		Display.display_board Board.board 0;*)
+		print_error "Incorrect format. " current_player
+		end
+(*	else if not (Board.tile_is_avaible board entry)
+	then
+		print_error "Illegal move. " current_player*)
+	else true
 
-let tile1 = Owner(playerX)
-let tile2 = Owner(noPlayer)
-let tile3 = Owner(noPlayer)
-let tile4 = Owner(playerX)
-let tile5 = Owner(playerO)
-let tile6 = Owner(noPlayer)
-let tile7 = Owner(playerX)
-let tile8 = Owner(playerO)
-let tile9 = Owner(playerO)
+(*let display_all acc current_player =
+	if acc = 0
+		then	Display.clear_win ();
+				Display.display_board Board.board 0;
+				Display.display_instructions (Display.string_of_player current_player ^ "'s turn:")
 *)
-let coord_X_base =  0
-let coord_X_second_col = coord_X_base + 20
-let coord_X_third_col = coord_X_base + 40
 
-let coord_Y_base = 200
-let coord_Y_second_line =  coord_Y_base - 20
-let coord_Y_third_line =  coord_Y_base - 40
+(* TODO : faire gagner le denier joueur a poser une tile *)
+let rec main_loop board players_names current_player last_player= match board with
+| Board.Grid(_, p, _) when p <> Board.noPlayer	-> Display.display_board board 0;
+													Display.display_instructions  (Display.string_of_player p ^ " wins!")
+| Board.Grid(_, p, t) when Board.check_tile_available t = false		-> Display.display_board board 0;
+													Display.display_instructions  (Display.string_of_player last_player ^ " wins!")
+| Board.Grid(_, _, t)							-> let rec get_new_owned () =
+													let player_entry =
+														Display.display_board Board.board 0;
+														(*Display.display_instructions (Display.string_of_player current_player ^ "'s turn:");*)
+														Display.get_input "" 0 in
+													let trimed_entry = String.trim player_entry in
+													if not (check_entry trimed_entry board current_player)
+													then
+														get_new_owned ()
+													else
+														trimed_entry
+												in
+												let move = get_new_owned () in
+												let new_board = Board.set_move board current_player move in
+												let updated_board = Board.update_winners new_board in
+												main_loop updated_board players_names last_player current_player
 
-(*
-let tile1_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile2_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile3_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile4_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile5_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile6_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile7_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile8_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let tile9_board =  Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])
-let board = Grid (first_level, noPlayer, [tile1_board; tile2_board; tile3_board; tile4_board; tile5_board; tile6_board; tile7_board; tile8_board; tile9_board])
-*)
+let main () =
+	Display.create_win ();
+	main_loop Board.board ["X"; "O"] Board.playerO Board.playerX;
+	ignore(Display.get_input "" 0);
+	Display.close_win ()
 
-(*let board = Grid (tiles_level, noPlayer, [tile1; tile2; tile3; tile4; tile5; tile6; tile7; tile8; tile9])*)
+let () = main ()
 
-let print_player head = 
-	match head with
-	| Owner(p) when p = noPlayer -> Graphics.draw_string " _ "
-	| Owner(p) when p = playerX -> Graphics.draw_string " X "
-	| Owner(p) when p = playerO -> Graphics.draw_string " O "
-	| _ -> Graphics.draw_string " ep"
 
-let rec display_tiles tiles nbr =
-	match tiles with
-	|  [] -> print_newline ()
-	| head::body -> 
-		begin
-			match nbr with 
-			| 0 -> 
-					begin
-						Graphics.moveto coord_X_base coord_Y_base;
-						print_player head;
-						display_tiles body (nbr + 1)
-					end
-			| 1 ->
-				begin
-						Graphics.moveto coord_X_second_col coord_Y_base;
-						print_player head;
-						display_tiles body (nbr + 1)
-				end
-			| 2 ->
-				begin
-						Graphics.moveto coord_X_third_col coord_Y_base;
-						print_player head;
-						Graphics.draw_string " | ";
-						display_tiles body (nbr + 1)
-				end
-			| 3 ->
-				begin
-						Graphics.moveto coord_X_base coord_Y_second_line;
-						print_player head;
-						display_tiles body (nbr + 1)
-				end
-			| 4 ->
-				begin
-						Graphics.moveto coord_X_second_col coord_Y_second_line;
-						print_player head;
-						display_tiles body (nbr + 1)
-				end
-			| 5 ->
-				begin
-						Graphics.moveto coord_X_third_col coord_Y_second_line;
-						print_player head;
-						Graphics.draw_string " | ";
-						display_tiles body (nbr + 1)
-				end
-			| 6 ->
-				begin
-						Graphics.moveto coord_X_base coord_Y_third_line;
-						print_player head;
-						display_tiles body (nbr + 1)
-				end
-			| 7 ->
-				begin
-						Graphics.moveto coord_X_second_col coord_Y_third_line;
-						print_player head;
-						display_tiles body (nbr + 1)
-				end
-			| 8 ->
-				begin
-						Graphics.moveto coord_X_third_col coord_Y_third_line;
-						print_player head;
-						Graphics.draw_string " | ";
-						display_tiles body (nbr + 1)
-				end
-			| _ -> print_newline ()
-		end
-
-let display_winner p =
-	match p with
-	| p when p = playerX ->
-			begin
-				Graphics.moveto coord_X_base coord_Y_base;
-				Graphics.draw_string " \     /  | ";
-				Graphics.moveto coord_X_base coord_Y_second_line;
-				Graphics.draw_string "    X     | ";
-				Graphics.moveto coord_X_base coord_Y_third_line;
-				Graphics.draw_string " /     \  | "
-			end
-	| p when p = playerO -> 
-			begin
-				Graphics.moveto coord_X_base coord_Y_base;
-				Graphics.draw_string " /-----\  | ";
-				Graphics.moveto coord_X_base coord_Y_second_line;
-				Graphics.draw_string " |  O   | | ";
-				Graphics.moveto coord_X_base coord_Y_third_line;
-				Graphics.draw_string " \\-----/  | ";
-			end
-	| _ -> 
-			begin
-				Graphics.moveto coord_X_base coord_Y_base;
-				Graphics.draw_string " /-----\  | ";
-				Graphics.moveto coord_X_base coord_Y_second_line;
-				Graphics.draw_string "   error  | ";
-				Graphics.moveto coord_X_base coord_Y_third_line;
-				Graphics.draw_string " \\-----/  | ";
-			end
-
-let string_of_player p = 
-	match p with
-	| p when p = noPlayer -> ""
-	| p when p = playerX -> "X"
-	| p when p = playerO -> "O"
-	| p -> "E"
-
-let rec display_board b =
-	match b with
-	| Grid (l, p, t) when l = Board.tiles_level && p = noPlayer -> display_tiles t 0
-	| Grid (l, p, t) when l = Board.tiles_level && p <> noPlayer -> display_winner p
-	| Grid (l, p, t) when l = first_level -> 
-			begin
-				match t with
-				| [] -> ()
-				| head::body ->
-				begin
-				match head with
-					| Owner(p_bis) -> display_winner p_bis ; display_list body;
-					| x -> display_board x 
-				end
-			end
-	| Grid (l, p, t) when l = second_level && p = noPlayer ->
-			begin
-				match t with
-				| [] -> ()
-				| head::body ->
-				begin
-				match head with
-					| Owner(p_bis) -> display_winner p_bis ; display_list body;
-					| x -> display_board x 
-				end
-			end
-	| Grid (l, p, t) when l = second_level && p <> noPlayer ->
-		begin
-			Graphics.moveto 0 0;
-			Graphics.draw_string ((string_of_player p) ^ "wins the game !")
-		end
-	| Owner (p) -> display_winner p
-	| Grid (_, _, _) -> ()
-and 
-display_list l =
-	match l with
-	| [] -> ()
-	| head::body ->
-		begin
-			match head with
-			| Owner(p_bis) -> display_winner p_bis ; display_list body;
-			| x -> display_board x
-		end
-
-let create_win width height =
-	Graphics.open_graph (" " ^ ((string_of_int width) ^  "x" ^ (string_of_int height)))
-
-let () =
-	create_win ((100+1) * 3) ((100 + 1) * 3);
-	display_board board;
-	ignore(Graphics.read_key ());;
-	Graphics.close_graph ()
