@@ -44,7 +44,7 @@ let update_winners board = board
 *)
 let get_board_x_y board x y = match board with
 | Grid(l, _, _) when l = tiles_level	-> board
-| Grid(_, _, t)							-> List.nth t ( 3 * y + x )
+| Grid(_, _, t)							-> List.nth t ( 3 * y + x ) 
 
 
 
@@ -91,6 +91,34 @@ get_board_winner board = match board with
 							end
 *)
 
+(*
+let update_winner_tile board = 
+    let rec update_winners_board t acc = match t with
+        | hd::tl ->
+			begin
+				let player = (check_winner_board hd) in
+				let Grid(le, pl, ti) = hd in
+				let newBoard = Grid(le, player, ti) in
+				update_winners_board tl (newBoard :: acc)
+        	end
+        | [] -> acc
+    in Grid(first_level, p, (update_winners_board t [])); (* le player ne sera jamais update *)
+
+*)
+
+let update_winners board =
+	let Grid(l, p, t) = board in
+    let rec update_winners_board t acc = match t with
+        | hd::tl ->
+			begin
+				let player = (check_winner_board hd) in
+				let Grid(le, pl, ti) = hd in
+				let newBoard = Grid(le, playerX, ti) in
+				update_winners_board tl (newBoard :: acc)
+        	end
+        | [] -> acc
+    in Grid(l, p, (update_winners_board t [])) (* le player ne sera jamais update *)
+
 let set_board_winner board new_winner = match board with
 	| Grid (l, _, t)	-> Grid (l, new_winner, t)
 
@@ -125,37 +153,56 @@ let rec check_board_available board list = match board with
  * current_player
  * move = (x, y)
  * *)
-let set_move board_main current_player move =
-    let (x, y) = move in
-    let board = get_board_x_y board_main (x / 3) (y / 3) in
+
+let set_tile_winner winner =
+    Grid(tiles_level, winner, [])
+
+let set_first_level_x_y_winner board winner x y =
+    let stop_index = 1 in
+    (*let stop_index = x + 3 * y in*)
     let Grid(l, p, t) = board in
-    let rec set_move_board board_lst current_player move acc = match board_lst with
+    let rec set_move_board board_lst move acc = match board_lst with
     | hd::tl -> (
-        let (x, y) = move in
-        let stop_index = (x mod 3) + 3 * (y mod 3) in
         if List.length acc = stop_index
         then
-            set_move_board tl current_player move ((set_board_winner hd current_player) :: acc)
+            begin 
+            print_endline "yolo";
+            let new_tile = set_tile_winner playerX in (* set en dur *)
+            set_move_board tl move (new_tile :: acc)
+            end
         else
-            set_move_board tl current_player move (hd :: acc)
+            begin 
+            print_endline "plus d'inspi";
+            set_move_board tl move (hd :: acc)
+            end
     )
     | [] -> acc
-    in Grid(l, p, (set_move_board t current_player move []))
+    in Grid(l, playerX, List.rev(set_move_board t (x,y) []))
+    
+
+let set_move board_main current_player move =
+    let (x, y) = move in
+    let Grid(l, p, t) = board_main in
+    (*let stop_index = (x / 3) + 3 * (y / 3) in *)
+    let stop_index = 0 in
+    let rec set_move_board board_lst move acc = match board_lst with
+    | hd::tl -> (
+        if List.length acc = stop_index
+        then
+        begin
+            print_endline "on est passe par ici";
+            set_move_board tl move ((set_first_level_x_y_winner hd current_player (x mod 3) (y mod 3)) :: acc)
+            end
+        else
+        begin
+            print_endline "on repassera par la";
+            set_move_board tl move (hd :: acc)
+            end
+    )
+    | [] -> acc
+    in Grid(second_level, playerX, List.rev(set_move_board t move []))
 
 (*Update board*)
-
-let update_winners board =
-	let Grid(l, p, t) = board in
-    let rec update_winners_board t acc = match t with
-        | hd::tl ->
-			begin
-				let player = (check_winner_board hd) in
-				let Grid(l, p, t) = hd in
-				let newBoard = Grid(l, player, t) in
-				update_winners_board tl (newBoard :: acc)
-        	end
-        | [] -> acc
-    in Grid(l, p, (update_winners_board t []));
 
 
 

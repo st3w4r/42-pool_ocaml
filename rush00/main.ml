@@ -77,9 +77,9 @@ let convert_string_to_int_int entry =
 (* TODO : faire gagner le denier joueur a poser une tile *)
 let rec main_loop board players_names current_player last_player= match board with
 | Board.Grid(_, p, _) when p <> Board.noPlayer    -> Display.display_board board 0;
-                                                    Display.display_instructions  (Display.string_of_player p ^ " wins!")
-| Board.Grid(_, p, t) when Board.check_tile_available t = false        -> Display.display_board board 0;
-                                                    Display.display_instructions  (Display.string_of_player last_player ^ " wins!")
+                                                    Display.display_instructions  (Display.string_of_player p ^ " wins by talent!")
+| Board.Grid(_, p, t) when Board.check_tile_available [board] = false        -> Display.display_board board 0;
+                                                    Display.display_instructions  (Display.string_of_player last_player ^ " wins by chance!")
 | Board.Grid(_, _, t)                            -> let rec get_new_owned () =
                                                     let player_entry =
                                                         Display.display_board Board.board 0;
@@ -89,23 +89,17 @@ let rec main_loop board players_names current_player last_player= match board wi
                                                     if not (check_entry trimed_entry board current_player)
                                                     then
 	                            					    begin
-						                                	print_endline "coucou";
-                            						    (*
-						                            	*)
                                                             get_new_owned ()
                                                     end
                                                     else
 						                                begin
-						    	                            print_endline "coucou";
-						                                (*
-							                            *)
                                                             trimed_entry
 						                                end
                                                 in
                                                 let move = convert_string_to_int_int (get_new_owned ()) in
                                                 let new_board = Board.set_move board current_player move in
-                                                let updated_board = Board.update_winners new_board in
-                                                main_loop updated_board players_names last_player current_player
+                                                (*let updated_board = Board.update_winners new_board in *)
+                                                main_loop new_board players_names last_player current_player
 
 let main () =
     Display.create_win ();
