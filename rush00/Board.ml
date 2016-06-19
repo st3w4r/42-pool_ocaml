@@ -110,6 +110,7 @@ let set_board_winner board new_winner = match board with
 let rec check_tile_available board = match board with
     | Grid(_, p, _)::tl when (p = noPlayer) -> true
     | Grid(_, p, _)::tl when (p <> noPlayer) -> check_tile_available tl
+    | Grid(_,_,_)::tl -> false
     | [] -> false
 
 (*Return true if board is no full*)
@@ -134,9 +135,9 @@ let set_move board_main current_player move =
         let stop_index = (x mod 3) + 3 * (y mod 3) in
         if List.length acc = stop_index
         then
-            set_move_board tl current_player move (List.append (set_board_winner hd current_player) acc)
+            set_move_board tl current_player move ((set_board_winner hd current_player) :: acc)
         else
-            set_move_board tl current_player move (List.append hd acc)
+            set_move_board tl current_player move (hd :: acc)
     )
     | [] -> acc
     in Grid(l, p, (set_move_board t current_player move []))
@@ -145,15 +146,16 @@ let set_move board_main current_player move =
 
 let update_winners board =
 	let Grid(l, p, t) = board in
-    let rec update_winners_board t acc = match board with
-        | hd::tl -> (
-            let (l, p, t) = hd in
-            let player = (check_winner_board hd) in
-            let newBoard = Grid(l, player, t) in
-            update_winner_board tl (List.append newBoard acc)
-        )
+    let rec update_winners_board t acc = match t with
+        | hd::tl ->
+			begin
+				let player = (check_winner_board hd) in
+				let Grid(l, p, t) = hd in
+				let newBoard = Grid(l, player, t) in
+				update_winners_board tl (newBoard :: acc)
+        	end
         | [] -> acc
-    in update_winners t;
+    in Grid(l, p, (update_winners_board t []));
 
 
 
