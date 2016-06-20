@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/20 17:42:14 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/20 20:07:21 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/20 22:34:53 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -18,4 +18,5 @@ let get x = x.contents
 
 let set x y = x.contents <- y
 
+let bind x f = return (get (f (get x)));;
 
