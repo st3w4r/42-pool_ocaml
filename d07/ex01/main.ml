@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 14:09:17 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/22 18:12:23 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/22 19:40:30 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -18,5 +18,5 @@ let () =
     the_doctor#travel_in_time 20 5;
     the_doctor#use_sonic_screwdriver;
     print_endline the_doctor#to_string;
-(*    the_doctor#call_regenerate;*)
+(*    the_doctor#call_regenerate; *)
     print_endline ""
