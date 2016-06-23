@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 16:46:49 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 15:47:18 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 19:07:40 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -48,6 +48,6 @@ class doctor name age people =
             print_endline " |       |       |";
             print_endline " *****************"
         )
-
+        method heal = self#regenerate
     end
 

@@ -6,23 +6,28 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 16:46:49 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 14:53:22 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 19:07:40 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
 class doctor name age people =
     object (self)
         val _name:string = name
-        val _age:int = age
+        val mutable _age:int = age
         val _sidekick:People.people = people
-        val _hp = 100
+        val mutable _hp = 100
+
+        (*GETTER*)
+        method get_sidekick = _sidekick
+        (*SETTER*)
+        method set_hp hp = _hp <- hp
 
         initializer print_endline "Doctor Created"
         method to_string = _name ^ " " ^ (string_of_int _age) ^ " years old " ^
         (string_of_int _hp) ^ " HP " ^ (_sidekick#to_string)
         method talk = print_endline "Hi! I’m the Doctor!"
         method use_sonic_screwdriver = print_endline "Whiiiiwhiiiwhiii Whiiiiwhiiiwhiii Whiiiiwhiiiwhiii"
-        method private regenerate = new doctor _name _age _sidekick
+        method private regenerate = _hp <- 100
         method travel_in_time (start:int) (arrival:int) = (
             print_endline "        ___";
             print_endline "_______(_@_)_______";
@@ -43,6 +48,6 @@ class doctor name age people =
             print_endline " |       |       |";
             print_endline " *****************"
         )
-
+        method heal = self#regenerate
     end
 

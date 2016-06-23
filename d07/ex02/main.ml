@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 14:09:17 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 16:21:27 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 19:06:34 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -68,5 +68,6 @@ let () =
     print_endline aDalek#to_string;
 
     theDoctor#travel_in_time 21 42;
+    theDoctor#heal;
     print_endline theDoctor#to_string
-
+    
