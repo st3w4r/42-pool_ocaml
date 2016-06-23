@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 16:46:49 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 12:14:22 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 15:47:18 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -16,6 +16,11 @@ class doctor name age people =
         val mutable _age:int = age
         val _sidekick:People.people = people
         val mutable _hp = 100
+
+        (*GETTER*)
+        method get_sidekick = _sidekick
+        (*SETTER*)
+        method set_hp hp = _hp <- hp
 
         initializer print_endline "Doctor Created"
         method to_string = _name ^ " " ^ (string_of_int _age) ^ " years old " ^
