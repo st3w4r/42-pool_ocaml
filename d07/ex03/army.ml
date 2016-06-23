@@ -6,13 +6,12 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/23 16:28:17 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 22:13:24 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 22:33:56 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
 class ['a] army (x:'a list) =
     object
-(*        type t = People.people | Doctor.doctor | Dalek.dalek*)
         val mutable _lst : 'a list = x
 
         (*GETTER*)
