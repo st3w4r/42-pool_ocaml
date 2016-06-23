@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 14:09:05 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 16:10:56 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 20:32:11 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -18,7 +18,7 @@ class people name =
         method set_hp hp = (
             _hp <- hp;
             if (_hp <= 0)
-            then self#die
+            then (_hp <- 0; self#die)
             else ()
         )
 

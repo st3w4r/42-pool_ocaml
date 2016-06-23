@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 14:09:17 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 19:06:34 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 20:30:14 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -69,5 +69,8 @@ let () =
 
     theDoctor#travel_in_time 21 42;
     theDoctor#heal;
-    print_endline theDoctor#to_string
+    print_endline theDoctor#to_string;
+
+    aPeople#set_hp (-10);
+    print_endline aPeople#to_string
     
