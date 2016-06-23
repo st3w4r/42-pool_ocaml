@@ -6,13 +6,13 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/23 16:28:17 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 22:33:56 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 23:05:43 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
-class ['a] army (x:'a list) =
+class ['a] army =
     object
-        val mutable _lst : 'a list = x
+        val mutable _lst : 'a list = []
 
         (*GETTER*)
         method get_lst = _lst;
