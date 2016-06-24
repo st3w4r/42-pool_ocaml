@@ -81,6 +81,9 @@ SOURCES = atom.ml \
 			trinitrotoluene.ml \
 			water.ml \
 			carbon_dioxyde.ml \
+			hydrogen_cyanide.ml \
+			ethylene.ml \
+			methane.ml \
 			main.ml
 
 # The executable file to generate
