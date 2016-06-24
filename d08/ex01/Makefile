@@ -79,6 +79,8 @@ SOURCES = atom.ml \
 			nitrogen.ml \
 			molecule.ml \
 			trinitrotoluene.ml \
+			water.ml \
+			carbon_dioxyde.ml \
 			main.ml
 
 # The executable file to generate

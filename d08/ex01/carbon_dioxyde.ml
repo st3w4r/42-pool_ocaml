@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/24 13:29:37 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/24 17:36:44 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/24 17:44:31 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -32,7 +32,7 @@ let desc atoms =
     let rec string_list_tuple_atom lst acc = match lst with
     | hd::tl -> (
         let (n, x) = hd in
-        string_list_tuple_atom tl (acc ^ (string_of_int n) ^ " - "^ x#to_string ^ "\n")
+        string_list_tuple_atom tl (acc ^ (string_of_int n ^ " - "^ x#to_string ^ "\n"))
     )
     | [] -> acc
     in string_list_tuple_atom atoms ""
@@ -46,34 +46,16 @@ let priority_order atom1 atom2 =
     else if (String.compare s2 "H") = 0 then 1
     else String.compare s1 s2
 
-class trinitrotoluene =
+class carbon_dioxyde =
     object (self)
         inherit Molecule.molecule
         val atoms : Atom.atom list = [
-            new Nitrogen.nitrogen;
-            new Nitrogen.nitrogen;
-            new Nitrogen.nitrogen;
-            new Hydrogen.hydrogen;
-            new Hydrogen.hydrogen;
-            new Hydrogen.hydrogen;
-            new Hydrogen.hydrogen;
-            new Hydrogen.hydrogen;
-            new Oxygen.oxygen;
-            new Oxygen.oxygen;
-            new Oxygen.oxygen;
-            new Oxygen.oxygen;
-            new Oxygen.oxygen;
-            new Oxygen.oxygen;
             new Carbon.carbon;
-            new Carbon.carbon;
-            new Carbon.carbon;
-            new Carbon.carbon;
-            new Carbon.carbon;
-            new Carbon.carbon;
-            new Carbon.carbon
-    ]
+            new Oxygen.oxygen;
+            new Oxygen.oxygen
+        ]
 
-        method name = "Trinitrotoluene"
+        method name = "Carbon dioxyde"
         method formula =
             begin
                 let sorted_list = List.sort priority_order  atoms in

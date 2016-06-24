@@ -6,7 +6,7 @@
 (*   By: ybarbier <ybarbier@student.42.fr>          +#+  +:+       +#+        *)
 (*                                                +#+#+#+#+#+   +#+           *)
 (*   Created: 2016/06/22 14:09:17 by ybarbier          #+#    #+#             *)
-(*   Updated: 2016/06/23 20:30:14 by ybarbier         ###   ########.fr       *)
+(*   Updated: 2016/06/23 20:35:30 by ybarbier         ###   ########.fr       *)
 (*                                                                            *)
 (* ************************************************************************** *)
 
@@ -73,4 +73,3 @@ let () =
 
     aPeople#set_hp (-10);
     print_endline aPeople#to_string
-    
